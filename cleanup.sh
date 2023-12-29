@@ -1,15 +1,16 @@
 #!/bin/bash
 # set -e
 
-echo "[CAUSION] Careful!!! The following steps will remove resources created by this project:\
-1. Route53 record \
-2. ACM certificate \
-3. Helm release \
+printf \
+"[CAUTION] Careful!!! The following steps will remove resources created by this project:\n \
+1. Route53 record \n \
+2. ACM certificate \n \
+3. Helm release \n \
 4. Terraform resources (EKS/VPC)"
 
 # remind user to confirm the cleanup
-read -e -n 1 -p "ARE SURE TO REMOVE ALL THE RESOURCES? (y/N)" CONFIRM
-if [[ "${CONFIRM}" != "y" ]]; then
+read -e -n 1 -p "ARE YOU SURE TO REMOVE ALL THE RESOURCES? (Y/N)" CONFIRM
+if [[ "${CONFIRM}" != "Y" ]]; then
   echo "Cancel cleanup"
   exit 0
 fi
@@ -22,8 +23,8 @@ for dir in cleanup/*/; do
   cd "${dir}" || exit
   printf \
   "###########################################################\n \
-  cleaning up resources recorded in %s \n \
-  #########################################################\n" \
+  cleaning up resources recorded in %s\n\
+###########################################################\n" \
   "${dir}"
 
   # unset variables and load variables from resources file
