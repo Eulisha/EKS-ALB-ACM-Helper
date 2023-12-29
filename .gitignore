@@ -1,5 +1,6 @@
-cleanup/
+cleanup/*
 config
+!.gitkeep
 
 # terraform files
 **/.terraform/*
