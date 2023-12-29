@@ -69,8 +69,11 @@ rm -rf ./cleanup/*
 
 # remove terraform resources if state file exists
 if [[ -f './infra/terraform.tfstate' ]]; then
-  echo "[Terraform] Destroying terraform resources..."
-  terraform -chdir=./infra destroy
+  read -e -n 1 -p "Do you want to destroy terraform resources (EKS/VPC)? (Y/N)" DESTROY
+  if [[ "${DESTROY}" == "Y" ]]; then
+    echo "[Terraform] Destroying terraform resources..."
+    terraform -chdir=./infra destroy
+  fi
 fi
 
 echo "Cleanup completed."
