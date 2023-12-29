@@ -1,0 +1,19 @@
+# Default values for HelmChart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+ingress:
+  enabled: true
+  type: alb
+  certificateArn: ''
+  albName: ''
+  albGroup: ''
+  hosts:
+    - host: ''
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local

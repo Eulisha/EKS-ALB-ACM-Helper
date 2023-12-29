@@ -1,0 +1,14 @@
+cleanup/
+config
+
+# terraform files
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+
+# OS files
+.DS_Store
