@@ -16,9 +16,9 @@ read -e -r -p "6. (optional) helm chart path? (default to ./helm) " HELM_CHART_P
 HELM_CHART_PATH="${HELM_CHART_PATH:-./helm}"
 read -e -r -p "7. (optional) helm values path? (default to ./helm/values.yaml) " HELM_VALUES_PATH
 HELM_VALUES_PATH="${HELM_VALUES_PATH:-./helm/values.yaml}"
-read -e -r -p  "8. (optional) insert 'true' if you want to use build infra feature. " NEED_BUILD_INFRA
+read -e -r -p  "8. (optional) do you want to build infra to play (y/n) " NEED_BUILD_INFRA
 NEED_BUILD_INFRA="${NEED_BUILD_INFRA:-}"
-read -e -r -p  "9. (optional) insert 'true' if using Route53 private hosted zone. " USE_PRIVATE_HOSTED_ZONE
+read -e -r -p  "9. (optional) if you want to use private hosted zone to record the hostname of your service (y/n) " USE_PRIVATE_HOSTED_ZONE
 USE_PRIVATE_HOSTED_ZONE="${USE_PRIVATE_HOSTED_ZONE:-}"
 
 # write config to file

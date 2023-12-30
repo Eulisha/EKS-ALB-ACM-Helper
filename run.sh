@@ -16,10 +16,9 @@ else
 fi
 
 source ./script/config
-echo "CERT_TO_USE:${CERT_TO_USE} LOADBALANCER_NAME:${LOADBALANCER_NAME} HOST_NAME:${HOST_NAME} DOMAIN_NAME:${DOMAIN_NAME} HELM_NAME:${HELM_NAME} ALB_GROUP:${ALB_GROUP} USE_PRIVATE_HOSTED_ZONE:${USE_PRIVATE_HOSTED_ZONE} NEED_BUILD_INFRA:${NEED_BUILD_INFRA} HELM_VALUES_PATH:${HELM_VALUES_PATH}"
 
 # create infra for playing
-if [[ ${NEED_BUILD_INFRA} == 'true' ]]; then
+if [[ ${NEED_BUILD_INFRA} == 'y' ]]; then
   echo "Creating infra..."
   terraform -chdir=./infra init && terraform -chdir=./infra apply
 fi

@@ -47,6 +47,7 @@ A tool to automatize the workflow whenever you need an EKS ingress which using A
 
    - EKS AWS Load Balancer Controller will use annotation `kubernetes.io/ingress.class: alb` and `alb.ingress.kubernetes.io/load-balancer-name: <albName>` to associate/create ALB, and then associate ACM certificate assigned/created from previous steps onto it.
    - If you want to share ALB to multiple services, assign alb group name to prompt question. It will add `alb.ingress.kubernetes.io/group.name: <albGroup>` annotation to ingress manifest, which will add multiple certificates in ALB SNI List.
+   - see [Application load balancing on Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html) for more information.
 
 4. Create route53 record by AWS CLI, point service hostname to ALB DNS name.
 
@@ -79,13 +80,13 @@ A tool to automatize the workflow whenever you need an EKS ingress which using A
    5. insert the alb group name if you want to use shared ALB
    6. helm chart path? (default to ./helm)
    7. helm values path? (default to ./helm/values.yaml)
-   8. insert 'true' if you want to build infra to play
-   9. insert 'true' if you want to use private hosted zone
+   8. do you want to build infra to play (y/n)
+   9. if you want to use private hosted zone to record the hostname of your service (y/n)
    ```
 
 3. The tool will default to use files in `helm/` to create helm chart based on your input. If you want to integrate with your existing helm chart, you need to include the following snippet in your helm files, and assign the path to your helm resources when questions prompt:
 
-   - In ingress.yaml:
+   - In `ingress.yaml`:
 
      ```yaml
      {{- with .Values.ingress.type}}
@@ -108,7 +109,7 @@ A tool to automatize the workflow whenever you need an EKS ingress which using A
 
      ```
 
-   - In values.yaml:
+   - In `values.yaml`:
 
      ```yaml
      ingress:
@@ -120,19 +121,23 @@ A tool to automatize the workflow whenever you need an EKS ingress which using A
      ```
 
 4. (optional) If you want to try this tool for playing but do not have existing EKS resources, just set `true` to the question:
+
    ```
    8. insert 'true' if you want to build infra to play
    ```
+
    The tool will create AWS EKS/VPC and set up the required settings for you. Review the plan provided by Terraform and confirm it to proceed. It will take some time for the first time.
+
+5. You can use browser or `curl` to check if the service is running successfully.
 
 ### Clean up resources
 
 Execute `./cleanup.sh` to clean up. It will delete the following resources created by this tool:
 
-- Helm release
-- ALB
-- ACM certificate
-- Route53 record
+- Helm releases
+- ALBs
+- ACM certificates
+- Route53 records
 - Terraform resources (if you used build-infra feature)
 
 Check the files under `cleanup/` before you proceed if you're not sure what was created. You can delete the files/variables recorded so that the resources will not be deleted.
