@@ -5,8 +5,7 @@ printf \
 "[CAUTION] Careful!!! The following steps will remove resources created by this project:\n \
 1. Route53 record \n \
 2. ACM certificate \n \
-3. Helm release \n \
-4. Terraform resources (EKS/VPC)"
+3. Helm release \n"
 
 # remind user to confirm the cleanup
 read -e -n 1 -p "ARE YOU SURE TO REMOVE ALL THE RESOURCES? (Y/N)" CONFIRM
