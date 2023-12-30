@@ -32,8 +32,11 @@ module "eks" {
   create_kms_key            = false
   cluster_encryption_config = {}
 
-  vpc_id                                = module.vpc.vpc_id
-  subnet_ids                            = concat(module.vpc.private_subnets, module.vpc.public_subnets)
+  vpc_id = module.vpc.vpc_id
+  # nodes will place in public subnets
+  subnet_ids = module.vpc.public_subnets
+  # if you want to place nodes in private subnets, use the config below and enalbe NAT gateway in vpc.tf
+  # subnet_ids                            = concat(module.vpc.public_subnets, module.vpc.private_subnets)
   cluster_endpoint_public_access        = true
   cluster_additional_security_group_ids = [aws_security_group.allow_eks_cidr_all.id]
 

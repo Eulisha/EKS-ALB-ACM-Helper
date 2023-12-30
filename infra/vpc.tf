@@ -18,6 +18,7 @@ module "vpc" {
   public_subnets          = var.vpc_private_subnets
   map_public_ip_on_launch = true
 
+  # uncomment below to enable NAT gateway
   # enable_nat_gateway   = true
   # single_nat_gateway   = true
   enable_dns_hostnames = true

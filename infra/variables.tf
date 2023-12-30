@@ -5,7 +5,7 @@ variable "aws_region" {
 variable "name" {
   type        = string
   description = "name for your resources"
-  default     = "my-resource"
+  default     = "EKS-ALB-ACM-Helper"
 }
 variable "vpc_cidr" {
   type        = string
