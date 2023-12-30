@@ -18,7 +18,7 @@ A tool to automatize the workflow whenever you need an EKS ingress which using A
 - Associate ACM certificate onto ALB.
 - Create Route53 record that routes service hostname to ALB of service ingress.
 
-# How it works
+## How it works
 
 ![workflow of this tool](workflow.png)
 
@@ -45,8 +45,8 @@ A tool to automatize the workflow whenever you need an EKS ingress which using A
 
 3. Handle EKS ingress / ALB
 
-   - EKS AWS Load Balancer Controller will use annotation `albName` to associate/create ALB, and then associate ACM certificate assigned/created from previous steps onto it.
-   - If you want to share ALB to multipule services, assign alb group name to prompt question. It will add `albGroup` annotation to ingress manifest, which will add multiple certificates in ALB SNI List.
+   - EKS AWS Load Balancer Controller will use annotation `kubernetes.io/ingress.class: alb` and `alb.ingress.kubernetes.io/load-balancer-name: <albName>` to associate/create ALB, and then associate ACM certificate assigned/created from previous steps onto it.
+   - If you want to share ALB to multiple services, assign alb group name to prompt question. It will add `alb.ingress.kubernetes.io/group.name: <albGroup>` annotation to ingress manifest, which will add multiple certificates in ALB SNI List.
 
 4. Create route53 record by AWS CLI, point service hostname to ALB DNS name.
 
@@ -63,7 +63,10 @@ A tool to automatize the workflow whenever you need an EKS ingress which using A
 ### Steps to use
 
 1. Git clone project to your local machine.
-2. Execute `./run.sh`, and answer the following prompt questions, and then this tool will build the resources for you.
+2. Execute `./run.sh`.
+
+   - You can choose to prepare `config` file first. Refer to `script/config.example` and create `config` file in the `script` folder.
+   - Or you can just answer the following prompt questions and let the tool generate it.
 
    ```
    # mandatory
@@ -120,7 +123,7 @@ A tool to automatize the workflow whenever you need an EKS ingress which using A
    ```
    8. insert 'true' if you want to build infra to play
    ```
-   The tool will create AWS EKS/VPC and set up the required settings for you. Review the plan provided by terraform and confirm it to proceed. It will take some time for the first time.
+   The tool will create AWS EKS/VPC and set up the required settings for you. Review the plan provided by Terraform and confirm it to proceed. It will take some time for the first time.
 
 ### Clean up resources
 
