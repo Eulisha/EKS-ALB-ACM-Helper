@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# set -e
-# export CERT_TO_USE
-source ./script/config
+
 
 # request new ACM certificate
 echo "ACM certificate not exist, need to create new one."
@@ -14,7 +12,7 @@ CERT_TO_USE=$(aws acm request-certificate \
 echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
 
 # execute DNS challenge validation
-sh ./script/create-r53-challenge-record.sh
+source ./script/create-r53-challenge-record.sh
 
 # Wait ACM certificate validation
 echo "[ACM] Validating certificate..."

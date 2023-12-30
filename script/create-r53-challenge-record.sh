@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# set -e
-source ./script/config
+
 
 # get dns challengae record
 echo "[ACM] Geting validation DNS challenge info..."
@@ -12,11 +11,11 @@ do
   DNS_CHALLENGE_NAME="$(aws acm describe-certificate \
   --certificate-arn "${CERT_TO_USE}" \
   --query "Certificate.DomainValidationOptions[?DomainName==\`${HOST_NAME}.${DOMAIN_NAME}\`].ResourceRecord.Name" \
-  --output text)"
+  --output text)" && true
   DNS_CHALLENGE_VALUE="$(aws acm describe-certificate \
   --certificate-arn "${CERT_TO_USE}" \
   --query "Certificate.DomainValidationOptions[?DomainName==\`${HOST_NAME}.${DOMAIN_NAME}\`].ResourceRecord.Value" \
-  --output text)"
+  --output text)" && true
   echo "dns challenge name: '${DNS_CHALLENGE_NAME}' value: '${DNS_CHALLENGE_VALUE}'"
 
   # check if timeout has been reached

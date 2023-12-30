@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# set -e
+set -e
+
+# trap exit and move resource records in temp dir to cleanup
+trap 'mv ./temp ./cleanup/$(date +%Y%m%d_%H%M%S)' EXIT
 
 source ./script/mandatory-promp-helper.sh
 
@@ -23,18 +26,16 @@ if [[ ${NEED_BUILD_INFRA} == 'y' ]]; then
   terraform -chdir=./infra init && terraform -chdir=./infra apply
 fi
 
-# create temp dir for cleanup
-mkdir ./temp
+# create temp dir for cleanup resources recorded
+rm -rf ./temp && mkdir ./temp
 
 # check if alb existed and have certificate with same hostname
-sh ./script/get-cert-on-alb.sh
+source ./script/get-cert-on-alb.sh
 
 # install helm chart
-sh ./script/install-helm.sh
+source ./script/install-helm.sh
 
 # update route53 record
-sh ./script/update-r53-record.sh "${USE_PRIVATE_HOSTED_ZONE}"
+source ./script/update-r53-record.sh "${USE_PRIVATE_HOSTED_ZONE}"
 
-# move temp dir to cleanup dir with timestamp
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-mv ./temp "./cleanup/${TIMESTAMP}"
+

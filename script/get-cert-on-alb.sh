@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
-# set -e
-source ./script/config
+
 
 # check if load balancer exist
 echo "[ALB] Checking if load balancer exist..."
-LOADBALANCER_ARN=$(aws elbv2 describe-load-balancers --names "${LOADBALANCER_NAME}" --query LoadBalancers[0].LoadBalancerArn --output text)
+LOADBALANCER_ARN=$(aws elbv2 describe-load-balancers --names "${LOADBALANCER_NAME}" --query LoadBalancers[0].LoadBalancerArn --output text) && true
 if [[ -z "${LOADBALANCER_ARN}" ]]; then
   echo "Load balancer not exist, need to create new one."
-  sh ./script/create-acm-cert.sh
-  exit 0
+  source ./script/create-acm-cert.sh
+  return 0
 fi
 echo "Load balancer already exist, ARN: '${LOADBALANCER_ARN}' "
 
@@ -33,7 +32,7 @@ do
     echo "Load balancer has valid certificate with project hostname existed, ARN: ""${certArn}"" "
     # write cert arn to file
     echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
-    exit 0
+    return 0
   fi
 done
 # check if load balancer has ACM certificate with wildcard domain
@@ -45,9 +44,9 @@ do
     echo "Load balancer has a wildcard certificate, ARN: ""${certArn}"" "
     # write cert arn to file
     echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
-    exit 0
+    return 0
   fi
 done
 
 echo "No existed certificate with project hostname on load balancer."
-sh ./script/create-acm-cert.sh
+source ./script/create-acm-cert.sh
