@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# set -e
-source ./script/config
 
+echo "CERT_TO_USE:${CERT_TO_USE} LOADBALANCER_NAME:${LOADBALANCER_NAME} HOST_NAME:${HOST_NAME} DOMAIN_NAME:${DOMAIN_NAME} HELM_NAME:${HELM_NAME} ALB_GROUP:${ALB_GROUP} USE_PRIVATE_HOSTED_ZONE:${USE_PRIVATE_HOSTED_ZONE} NEED_BUILD_INFRA:${NEED_BUILD_INFRA}"
 # handle hostname with wildcard
 if [[ "${HOST_NAME}" == "*" ]]; then
   HOST_NAME="*"
@@ -44,7 +43,7 @@ echo "[Route53] Checking Route53 hostname record"
 HOSTNAME_RECORD=$(aws route53 list-resource-record-sets \
 --hosted-zone-id "${ROUTE53_HOSTZONE_ID}" \
 --query "ResourceRecordSets[?Name=='${HOST_NAME_SEARCH}.${DOMAIN_NAME}.'].ResourceRecords" \
---output text)
+--output text) && true
 echo "Record: ${HOSTNAME_RECORD}"
 
 if [[ "${HOSTNAME_RECORD}" == "${ALB_DNS_NAME}" ]]; then

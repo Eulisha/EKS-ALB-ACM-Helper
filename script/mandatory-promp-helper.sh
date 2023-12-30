@@ -12,7 +12,7 @@ function mandatoryInput() {
 
         if [[ -n "${!VARIABLE_NAME}" ]]; then
             echo "You entered: ${!VARIABLE_NAME}"
-            return  # 返回 0 表示成功
+            return 0
         else
             (( TRIES++ ))
             echo "This is the mandatory argument. Please enter a value."
@@ -20,5 +20,5 @@ function mandatoryInput() {
     done
 
     echo "Exceeded maximum number of tries. Exiting."
-    exit  # 返回 1 表示失敗
+    exit 1
 }
