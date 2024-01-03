@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 # check if load balancer exist
 echo "[ALB] Checking if load balancer exist..."
 LOADBALANCER_ARN=$(aws elbv2 describe-load-balancers --names "${LOADBALANCER_NAME}" --query LoadBalancers[0].LoadBalancerArn --output text) && true
@@ -23,7 +22,7 @@ if [[ -z "${INGRESS_STACK_TAG}" && "${IS_NEW_HELM}" -eq 1 || "${INGRESS_STACK_TA
   echo "You're trying to add multiple services/hostnames on one ALB but not setting ALB group, or the ALB name mismatched."
   return 1
 fi
-echo ""  >> ./script/config && echo "IS_NEW_HELM=${IS_NEW_HELM}" >> ./script/config
+echo "" >> ./script/config && echo "IS_NEW_HELM=${IS_NEW_HELM}" >> ./script/config
 
 
 # list all certificates on load balancer
@@ -46,7 +45,7 @@ do
     CERT_TO_USE=${certArn}
     echo "Load balancer has valid certificate with project hostname existed, ARN: ""${certArn}"" "
     # write cert arn to file
-    echo "" && echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
+    echo "" >> ./script/config && echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
     return 0
   fi
 done
@@ -58,7 +57,7 @@ do
     CERT_TO_USE=${certArn}
     echo "Load balancer has a wildcard certificate, ARN: ""${certArn}"" "
     # write cert arn to file
-    echo "" && echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
+    echo "" >> ./script/config && echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
     return 0
   fi
 done
