@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# check if this is new helm release
-IS_NEW_HELM=$(helm list -q | grep -q "^${HELM_NAME}$"; echo $?) && true
-
 # helm install/upgrade
 helm upgrade --install "${HELM_NAME}" "${HELM_CHART_PATH}" \
 -f "${HELM_VALUES_PATH}" \
