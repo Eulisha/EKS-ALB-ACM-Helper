@@ -19,7 +19,7 @@ fi
 source ./script/sed-helper.sh
 
 # remove resources recorded in cleanup dir
-if [[ ! $(find test -maxdepth 1 -mindepth 1 -type d) ]]; then
+if [[ ! $(find cleanup -maxdepth 1 -mindepth 1 -type d) ]]; then
   echo "No resources need to cleanup."
 else
   for dir in cleanup/*/; do
