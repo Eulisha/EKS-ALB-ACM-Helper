@@ -31,7 +31,7 @@ do
     CERT_TO_USE=${certArn}
     echo "Load balancer has valid certificate with project hostname existed, ARN: ""${certArn}"" "
     # write cert arn to file
-    echo "\n CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
+    echo "" && echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
     return 0
   fi
 done
@@ -43,7 +43,7 @@ do
     CERT_TO_USE=${certArn}
     echo "Load balancer has a wildcard certificate, ARN: ""${certArn}"" "
     # write cert arn to file
-    echo "\n CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
+    echo "" && echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
     return 0
   fi
 done
