@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# check if this is new helm release for alb group setting later
+IS_NEW_HELM=$(helm list -q | grep -q "^${HELM_NAME}$"; echo $?) && true
+echo ""  >> ./script/config && echo "IS_NEW_HELM=${IS_NEW_HELM}" >> ./script/config
+
 # check if load balancer exist
 echo "[ALB] Checking if load balancer exist..."
 LOADBALANCER_ARN=$(aws elbv2 describe-load-balancers --names "${LOADBALANCER_NAME}" --query LoadBalancers[0].LoadBalancerArn --output text) && true
@@ -14,15 +18,11 @@ echo "Load balancer already exist, ARN: '${LOADBALANCER_ARN}' "
 echo "[ALB] Checking if load balancer has correct alb group setting..."
 INGRESS_STACK_TAG=$(aws elbv2 describe-tags --resource-arns "${LOADBALANCER_ARN}" --query TagDescriptions[0].Tags[?Key==\`ingress.k8s.aws/stack\`].Value --output text) && true 
 
-# check if this is new helm release
-IS_NEW_HELM=$(helm list -q | grep -q "^${HELM_NAME}$"; echo $?) && true
-
 # exit if new helm release with alb do not have alb group, or alb group name mismatched
 if [[ -z "${INGRESS_STACK_TAG}" && "${IS_NEW_HELM}" -eq 1 || "${INGRESS_STACK_TAG}" != "${ALB_GROUP}" ]]; then
   echo "You're trying to add multiple services/hostnames on one ALB but not setting ALB group, or the ALB name mismatched."
   return 1
 fi
-echo "" >> ./script/config && echo "IS_NEW_HELM=${IS_NEW_HELM}" >> ./script/config
 
 
 # list all certificates on load balancer
