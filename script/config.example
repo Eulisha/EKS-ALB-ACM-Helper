@@ -1,0 +1,9 @@
+HOST_NAME=abc
+DOMAIN_NAME=example.com
+HELM_NAME=my-chart
+LOADBALANCER_NAME=my-alb
+ALB_GROUP=my-alb-group
+HELM_CHART_PATH=./helm
+HELM_VALUES_PATH=./helm/values.yaml
+NEED_BUILD_INFRA=false
+USE_PRIVATE_HOSTED_ZONE=false
