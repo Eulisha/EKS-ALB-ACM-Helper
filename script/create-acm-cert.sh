@@ -9,7 +9,7 @@ CERT_TO_USE=$(aws acm request-certificate \
 --validation-method DNS \
 --output text)
 # write cert arn to file
-echo "\n CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
+echo "" >> ./script/config && echo "CERT_TO_USE=${CERT_TO_USE}" >> ./script/config
 
 # execute DNS challenge validation
 source ./script/create-r53-challenge-record.sh
